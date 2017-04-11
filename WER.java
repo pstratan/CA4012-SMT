@@ -1,4 +1,5 @@
-import java.util.Arrays;
+import java.util.*;
+import java.io.*;
 
 public class WER {
 	
@@ -25,9 +26,10 @@ public class WER {
 					int sub = dist[i-1][j-1]+1;
 					int ins = dist[i][j-1]+1;
 					int del = dist[i-1][j]+1;
-				
+					
 					int temp_min = Math.min(sub, ins);
 					dist[i][j] = Math.min(temp_min, del);
+					//System.out.println(dist[i][j] + "");
 				}
 			}
 		}
@@ -35,13 +37,22 @@ public class WER {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String ref = "Israeli officials are responsible for airport security";
-		String out = "Israeli official responsible airport is security";
+		try{
+			BufferedReader br = new BufferedReader(new FileReader("ref.txt"));
+			PrintWriter pw = new PrintWriter(new File("out.txt"));
+			
+			String ref = br.readLine();
+			String out = br.readLine();
+			
+			String [] size = ref.split(" ");
+			
+			pw.println("WER: " + wer(ref, out) + "/" + size.length);
+			
+			br.close();
+			pw.close();
 		
-		String [] size = ref.split(" ");
-		
-		System.out.println(wer(ref,out) + "/" + size.length);
+		} catch(IOException e){
+			System.out.println("I/O Error");
+		}
 	}
-
 }
